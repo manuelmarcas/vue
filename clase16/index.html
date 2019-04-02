@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VueJS</title>
+    <link rel="stylesheet" href="">
+    <script src="vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button v-on:click="increase(100, $event)">Click me</button>
+    <p>{{ counter }}</p>
+    <p v-on:mousemove="updateCoordinates">Coordenadas: {{ x }}, {{ y }}</p>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            counter: 0,
+            x: 0,
+            y: 0
+        },
+        methods: {
+            increase: function(step, event) {
+                this.counter +=step;
+            },
+            updateCoordinates: function(event) {
+                this.x = event.clientX;
+                this.y = event.clientY;
+            }
+        }
+    });
+</script>
+</body>
+</html>
