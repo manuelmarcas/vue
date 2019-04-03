@@ -9,9 +9,11 @@
 </head>
 <body>
 <div id="app">
-    <button v-on:click="increase(100, $event)">Click me</button>
+    <button v-on:click="increase(100, $event)">Incrementa 100</button>
     <p>{{ counter }}</p>
+    <p>{{ counter > 500 ? 'Mayor que 500' : 'Menor que 500'}}</p>
     <p v-on:mousemove="updateCoordinates">Coordenadas: {{ x }}, {{ y }}</p>
+    <input type="text" v-on:keyup.enter.space="alertMe">
 </div>
 <script>
     new Vue({
@@ -28,7 +30,11 @@
             updateCoordinates: function(event) {
                 this.x = event.clientX;
                 this.y = event.clientY;
+            },
+            alertMe: function(){
+                alert('Alert!');
             }
+
         }
     });
 </script>
