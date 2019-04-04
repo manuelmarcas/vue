@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>VueJS</title>
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
@@ -12,29 +12,43 @@
   <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
   <div>
     <button @click="startEffect">Start Effect</button>
+    <button @click="stop">Stop Effect</button>
+    <br><br>
     <div id="effect" v-bind:class="effectClasses"></div>
   </div>
+
   <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+  <br>
   <div v-bind:class="[float, 'blue', 'text-color']">I got no class :(</div>
+  
   <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+  <br><br><br>
   <div>
     <input type="text" v-model="userClass">
     <div v-bind:class="[{visible: true}, userClass]"></div>
   </div>
+
   <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
   <div>
     <input type="text" v-model="userClass">
-    <input type="text" v-model="isVisible">
+    <input @keyDown.enter="isVisible = !isVisible" type="text" v-model="isVisible">
     <div v-bind:class="[{visible: isVisible}, userClass]"></div>
   </div>
+
   <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+  <br><br>
   <div>
-    <input type="text" v-model="myStyle.backgroundColor">
+    <input type="text" v-model="myStyle.backgroundColor"> 
+    <br><br>
     <div v-bind:style="myStyle"></div>
   </div>
+
   <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+  <br><br>
   <div>
       <button v-on:click="startProgress">Start Progress</button>
+      <button v-on:click="stop">Stop Progress</button>
+      <button v-on:click="reanudar">Continue</button>
       <div v-bind:class="['progress-bar']" v-bind:style="progressBar"></div>
   </div>
 </div>
@@ -48,7 +62,9 @@
       },
       float: 'float',
       userClass: '',
-      isVisible: true,
+      isVisible: false,
+      id: 0,
+      width: 0,
       myStyle: {
         width: '100px',
         height: '150px',
@@ -62,16 +78,27 @@
     methods: {
       startEffect: function () {
         var vm = this;
-        setInterval(function () {
+        id = setInterval(function () {
           vm.effectClasses.highlight = !vm.effectClasses.highlight;
           vm.effectClasses.shrink = !vm.effectClasses.shrink;
         }, 1000);
       },
       startProgress: function () {
         var vm = this;
-        var width = 0;
+        width = 0;
 
-        setInterval(function () {
+        id = setInterval(function () {
+          width = width + 10;
+          vm.progressBar.width = width + 'px';
+        }, 500);
+      },
+      stop: function () {
+        clearInterval(id);
+      },
+      reanudar: function() {
+        var vm = this;
+
+        id = setInterval(function () {
           width = width + 10;
           vm.progressBar.width = width + 'px';
         }, 500);
